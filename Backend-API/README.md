@@ -88,7 +88,7 @@ Authorization: Bearer <access_token>
   
 ---
 
-##Key Design Decisions
+## Key Design Decisions
 - Stateless JWT auth for horizontal scalability
 - Redis for both caching and rate limiting
 - RBAC to simulate real production permissions
