@@ -58,13 +58,16 @@ You need Redis running before starting the queue.
 Using Docker:
 ```bash
 docker run -p 6379:6379 redis
+```
 Step 2: Run the Worker
+```bash
 cd task-queue
 python worker.py
+```
 Step 3: Submit Jobs
 
 In another terminal:
-
+```bash
 cd task-queue
 python client.py
 ```
