@@ -38,41 +38,35 @@ A systems/performance project demonstrating multithreading, Redis queues, TCP so
                                     └──────────────┘
 ```
 
-## Quick Start
+---
 
-### Local (requires Redis)
+## Requirements
 
+Make sure you have the following installed:
+
+- Python 3.9+
+- Docker
+- Git
+
+---
+
+# Setup
+
+### Step 1: Start Redis
+You need Redis running before starting the queue.
+
+Using Docker:
 ```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Start Redis (if not running)
-redis-server
-
-# Terminal 1: Start worker pool
+docker run -p 6379:6379 redis
+Step 2: Run the Worker
+cd task-queue
 python worker.py
+Step 3: Submit Jobs
 
-# Terminal 2: Submit jobs
-python client.py submit --count 20
+In another terminal:
 
-# Terminal 3: Check stats
-python client.py stats
-
-# Terminal 4: Start TCP server (optional)
-python server.py
-```
-
-### Docker Compose
-
-```bash
-# Start everything (2 workers + Redis + TCP server)
-docker-compose up --build -d
-
-# Submit jobs via TCP
-echo '{"command":"submit","task_type":"heavy_compute","payload":{"n":5000}}' | nc localhost 9999
-
-# Check queue stats
-echo '{"command":"stats"}' | nc localhost 9999
+cd task-queue
+python client.py
 ```
 
 ## Components
