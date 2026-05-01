@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  worker:
+    build: .
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - MAX_WORKERS=4
+      - BATCH_SIZE=10
+    depends_on:
+      - redis
+    restart: unless-stopped
+    deploy:
+      replicas: 2
+
+  server:
+    build: .
+    command: python server.py
+    ports:
+      - "9999:9999"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - SERVER_PORT=9999
+    depends_on:
+      - redis
+    restart: unless-stopped

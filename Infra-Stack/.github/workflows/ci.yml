@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ML API dependencies
+        run: |
+          cd ml-text-api
+          pip install -r requirements.txt
+
+      - name: Install Backend dependencies
+        run: |
+          cd backend-api
+          pip install -r requirements.txt
+
+      - name: Lint with ruff
+        run: |
+          pip install ruff
+          ruff check ml-text-api/app backend-api/app
+
+      - name: Build Docker images
+        run: |
+          docker-compose -f docker-compose.yml build
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to server
+        run: |
+          echo "Add your deployment steps here"
+          # Example: SSH into server and run docker-compose pull && up -d
