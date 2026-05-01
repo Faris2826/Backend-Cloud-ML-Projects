@@ -12,30 +12,44 @@ A production-ready machine learning API for text classification/sentiment analys
 - Docker & Docker Compose ready
 - Health checks & metrics endpoints
 
-## Quick Start
+## Running ml-text-api
 
-### Local Development
-
+### 1. Go to project folder
 ```bash
-# Install dependencies
+cd ml-text-api
+```
+### 2. Create virtual environment (optional but recommended)
+```bash
+python -m venv venv
+source venv/bin/activate      # Linux/Mac
+venv\Scripts\activate         # Windows
+```
+### 3. Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
-# Train the model
-python app/train.py
-
-# Run the API
+### 4. Run the API
 uvicorn app.main:app --reload
-```
 
-### Docker
+### 5. Open in browser
+http://localhost:8000/docs
 
+### Example Request
 ```bash
-# Build and run
-docker-compose up --build
+POST /predict
 
-# API will be available at http://localhost:8000
+{
+  "text": "This product is amazing"
+}
+
+### Example Response
+
+{
+  "prediction": "positive"
+}
 ```
-
+---
 ## API Endpoints
 
 | Endpoint | Method | Description |
