@@ -55,11 +55,41 @@ http://localhost:8000/docs
 ---
 
 ## Example Usage
-
+```json
 ### Register user
 POST /auth/register
-```json
+
 {
   "email": "test@example.com",
   "password": "password123"
 }
+Login
+
+POST /auth/login
+
+Returns:
+
+{
+  "access_token": "...",
+  "refresh_token": "..."
+}
+Access protected route
+
+GET /users/me
+Authorization: Bearer <access_token>
+```
+---
+
+## What This Project Demonstrates
+- Building a secure authentication system
+- Designing scalable REST APIs
+- Using caching and rate limiting for performance
+- Structuring a backend like a real production service
+  
+---
+
+##Key Design Decisions
+- Stateless JWT auth for horizontal scalability
+- Redis for both caching and rate limiting
+- RBAC to simulate real production permissions
+- Modular architecture for maintainability
