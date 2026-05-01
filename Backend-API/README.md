@@ -1,100 +1,37 @@
 # Backend API
 
-A production-grade backend system with authentication, RBAC, CRUD operations, caching, and rate limiting.
+A production-style backend service built with FastAPI, designed with scalability, performance, and clean architecture in mind.
+
+## Overview
+This service provides the core API layer of the system, handling authentication, access control, and data operations. It follows real-world backend design patterns, focusing on stateless architecture and performance optimisation.
 
 ## Features
+- JWT-based authentication (access & refresh tokens)
+- Role-Based Access Control (RBAC)
+- Full CRUD functionality
+- Pagination, filtering, and search
+- Redis-based caching
+- Rate limiting per IP
+- Input validation using Pydantic
+- Centralised error handling
 
-- **JWT Authentication** with access & refresh tokens
-- **Role-Based Access Control** (Admin / User)
-- **Full CRUD** with pagination, filtering, sorting, and search
-- **Redis Caching** for performance
-- **Rate Limiting** (100 req/min per IP)
-- **Input Validation** with Pydantic
-- **Global Error Handling**
-- **Docker & Docker Compose** ready
+## Tech Stack
+- Python / FastAPI
+- Redis
+- PostgreSQL (configurable)
+- Docker
 
-## Quick Start
+## Running the Service
 
 ### Local
-
-```bash
-pip install -r requirements.txt
-# Make sure Redis is running locally
-uvicorn app.main:app --reload
-```
+pip install -r requirements.txt  
+uvicorn app.main:app --reload  
 
 ### Docker
+docker-compose up --build  
 
-```bash
-docker-compose up --build
-```
-
-## API Overview
-
-### Auth
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/auth/register` | POST | Create account |
-| `/auth/login` | POST | Get tokens (form-data) |
-| `/auth/refresh` | POST | Refresh access token |
-
-### Users
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/users/me` | GET | Current user |
-| `/users` | GET | List users (admin only) |
-
-### Items (CRUD)
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/items` | POST | Create item |
-| `/items` | GET | List items (paginated, filterable) |
-| `/items/{id}` | GET | Get single item |
-| `/items/{id}` | PUT | Update item |
-| `/items/{id}` | DELETE | Delete item |
-
-### Admin
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/admin/stats` | GET | Platform stats |
-
-## Example Flow
-
-```bash
-# Register
-curl -X POST http://localhost:8000/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"username":"alice","email":"alice@test.com","password":"secret123"}'
-
-# Login
-curl -X POST http://localhost:8000/auth/login \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "username=alice&password=secret123"
-
-# Create item (use token from login)
-curl -X POST http://localhost:8000/items \
-  -H "Authorization: Bearer <token>" \
-  -H "Content-Type: application/json" \
-  -d '{"title":"My Project","description":"A cool project","tags":["fastapi","backend"]}'
-
-# List items with filters
-curl "http://localhost:8000/items?search=project&sort_by=created_at&page=1&page_size=10" \
-  -H "Authorization: Bearer <token>"
-```
-
-## Architecture
-
-```
-Client → Nginx (optional) → FastAPI → Redis (cache + rate limit)
-                              ↓
-                         PostgreSQL (swap in production)
-```
-
-## Production Checklist
-
-- [ ] Swap in-memory DB for PostgreSQL + SQLAlchemy
-- [ ] Add database migrations (Alembic)
-- [ ] Use proper secrets management (Vault/AWS SM)
-- [ ] Add structured logging (JSON)
-- [ ] Prometheus metrics endpoint
-- [ ] HTTPS / TLS termination
+## Key Design Decisions
+- Stateless authentication using JWT for scalability
+- Redis used for both caching and rate limiting to reduce database load
+- RBAC implemented to reflect production-level access control
+- Modular structure separating routes, services, and models
