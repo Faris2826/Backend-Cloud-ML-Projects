@@ -2,7 +2,7 @@
 
 This repository contains a collection of projects I made in my spare time to showcase my skills. They cover backend development, distributed systems, infrastructure, and machine learning.
 
-Each project is self-contained and focuses on a specific area of software engineering. You can run them on most devices since its very adaptable. has a few requirements. See individual readmes for more details. 
+Each project is self-contained and focuses on a specific area of software engineering. You can run them on most devices since they're adaptable. They have a few requirements, so see the individual readmes for more details. 
 
 ---
 
